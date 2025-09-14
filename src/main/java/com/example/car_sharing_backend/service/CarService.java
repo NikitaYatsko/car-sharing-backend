@@ -1,18 +1,18 @@
 package com.example.car_sharing_backend.service;
 
-import com.example.car_sharing_backend.entity.Car;
-import org.springframework.stereotype.Service;
+import com.example.car_sharing_backend.model.dto.CarDTO;
+import com.example.car_sharing_backend.model.entity.Car;
 
 import java.util.List;
 
 public interface CarService {
-    List<Car> getAllCars();
+    List<CarDTO> getAllCars();
 
-    Car getCarById(Long id);
+    CarDTO getCarById(Long id);
 
-    Car createCar(Car car);
+    CarDTO createCar(CarDTO carDTO);
 
-    Car updateCar(Long id, Car car);
+    CarDTO updateCar(Long id, CarDTO carDTO);
 
     void deleteCar(Long id);
 }

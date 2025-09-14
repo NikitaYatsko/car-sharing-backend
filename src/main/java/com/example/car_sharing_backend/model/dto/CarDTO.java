@@ -1,25 +1,18 @@
-package com.example.car_sharing_backend.entity;
+package com.example.car_sharing_backend.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "cars", schema = "carsharing-schema")
-public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Уникальный ID машины", example = "1")
-    private Long id;
+@Schema(description = "DTO")
+public class CarDTO {
 
     @NotBlank(message = "Модель автомобиля не может быть пустой")
     @Column(nullable = false)
