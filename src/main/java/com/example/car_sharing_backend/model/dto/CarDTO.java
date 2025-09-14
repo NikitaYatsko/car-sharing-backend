@@ -15,29 +15,29 @@ import lombok.NoArgsConstructor;
 public class CarDTO {
 
     @NotBlank(message = "Модель автомобиля не может быть пустой")
-    @Column(nullable = false)
+
     @Schema(description = "Модель автомобиля", example = "Toyota Corolla")
     private String model;
 
     @NotBlank(message = "Госномер не может быть пустым")
     @Size(max = 20, message = "Госномер слишком длинный")
-    @Column(nullable = false, unique = true)
+
     @Schema(description = "Госномер", example = "AB1234CD")
     private String stateNumber;
 
     @NotBlank(message = "Тип автомобиля не может быть пустым")
-    @Column(nullable = false)
+
     @Schema(description = "Тип автомобиля", example = "sedan")
     private String type;
 
     @NotNull(message = "Цена не может быть пустой")
     @Positive(message = "Цена должна быть положительной")
-    @Column(nullable = false)
+
     @Schema(description = "Цена аренды в день", example = "3500")
     private Integer price;
 
     @NotBlank(message = "Статус не может быть пустым")
-    @Column(nullable = false)
+
     @Schema(description = "Статус (available, rented, maintenance)", example = "available")
     private String status;
 
@@ -45,13 +45,13 @@ public class CarDTO {
     @DecimalMin(value = "-90.0", message = "Широта должна быть >= -90")
     @DecimalMax(value = "90.0", message = "Широта должна быть <= 90")
     @Schema(description = "Широта", example = "47.0105")
-    @Column(nullable = false)
+
     private Double latitude;
 
     @NotNull(message = "Долгота не может быть пустой")
     @DecimalMin(value = "-180.0", message = "Долгота должна быть >= -180")
     @DecimalMax(value = "180.0", message = "Долгота должна быть <= 180")
     @Schema(description = "Долгота", example = "28.8638")
-    @Column(nullable = false)
+
     private Double longitude;
 }
