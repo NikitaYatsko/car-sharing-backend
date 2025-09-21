@@ -1,18 +1,18 @@
 package com.example.car_sharing_backend.service;
 
-import com.example.car_sharing_backend.model.dto.CarDTO;
+
 import com.example.car_sharing_backend.model.entity.Car;
 
 import java.util.List;
 
 public interface CarService {
-    List<CarDTO> getAllCars();
+    List<Car> getAllCars();
 
-    CarDTO getCarById(Long id);
+    Car getCarById(Long id);
 
-    CarDTO createCar(CarDTO carDTO);
+    Car createCar(Car car);
 
-    CarDTO updateCar(Long id, CarDTO carDTO);
+    Car updateCar(Long id, Car car);
 
     void deleteCar(Long id);
 }
