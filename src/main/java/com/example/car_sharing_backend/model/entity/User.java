@@ -1,3 +1,5 @@
+package com.example.car_sharing_backend.model.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
