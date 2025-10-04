@@ -1,5 +1,6 @@
 package com.example.car_sharing_backend.service;
 
+import com.example.car_sharing_backend.model.dto.UserResponseDTO;
 import com.example.car_sharing_backend.model.entity.User;
 
 public interface UserService {
