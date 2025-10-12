@@ -22,7 +22,6 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) {
         log.info("Получение пользователя по id ={}", id);
         User user = userService.getUserById(id);
-
         UserResponseDTO userToResponse = UserMapper.INSTANCE.toUserResponseDTO(user);
         return ResponseEntity.ok(userToResponse);
     }
@@ -30,16 +29,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
         log.info("Получен DTO: {}", userRequestDTO);
-        // Маппим запрос -> сущность
         User userToSave = UserMapper.INSTANCE.fromUserRequestDTO(userRequestDTO);
-
-        // Сохраняем пользователя и получаем объект с ID и датами
         User savedUser = userService.createUser(userToSave);
         log.info("Сохранение пользователя user = {}", savedUser);
-
-        // Маппим сущность -> DTO ответа (без пароля)
         UserResponseDTO userToResponse = UserMapper.INSTANCE.toUserResponseDTO(savedUser);
-
         return ResponseEntity.ok(userToResponse);
     }
 }

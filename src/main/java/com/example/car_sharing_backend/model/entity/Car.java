@@ -17,32 +17,33 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "model", nullable = false)
     private String model;
 
     @NotBlank
     @Size(max = 20)
-    @Column(nullable = false, unique = true)
+    @Column(name = "state_number", nullable = false, unique = true)
     private String stateNumber;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "type", nullable = false)
     private String type;
 
     @NotNull
     @Positive
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private double price;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private String status;
 
     @UpdateTimestamp
-    @Column(name = "updated_at",nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @CreationTimestamp
@@ -52,12 +53,12 @@ public class Car {
     @NotNull
     @DecimalMin("-90.0")
     @DecimalMax("90.0")
-    @Column(nullable = false)
+    @Column(name = "latitude", nullable = false)
     private Double latitude;
 
     @NotNull
     @DecimalMin("-180.0")
     @DecimalMax("180.0")
-    @Column(nullable = false)
+    @Column(name = "longitude", nullable = false)
     private Double longitude;
 }
