@@ -1,5 +1,6 @@
 package com.example.car_sharing_backend.model.entity;
 
+import com.example.car_sharing_backend.model.enums.CarStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -40,7 +41,8 @@ public class Car {
 
     @NotBlank
     @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private CarStatus status;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)

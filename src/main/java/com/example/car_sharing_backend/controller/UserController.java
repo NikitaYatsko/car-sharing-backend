@@ -16,23 +16,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
+    private final UserMapper userMapper;
 
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) {
         log.info("Получение пользователя по id ={}", id);
         User user = userService.getUserById(id);
-        UserResponseDTO userToResponse = UserMapper.INSTANCE.toUserResponseDTO(user);
+        UserResponseDTO userToResponse = userMapper.toUserResponseDTO(user);
         return ResponseEntity.ok(userToResponse);
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> registerUser(@RequestBody UserRequestDTO userRequestDTO) {
         log.info("Получен DTO: {}", userRequestDTO);
-        User userToSave = UserMapper.INSTANCE.fromUserRequestDTO(userRequestDTO);
+        User userToSave = userMapper.fromUserRequestDTO(userRequestDTO);
         User savedUser = userService.createUser(userToSave);
         log.info("Сохранение пользователя user = {}", savedUser);
-        UserResponseDTO userToResponse = UserMapper.INSTANCE.toUserResponseDTO(savedUser);
+        UserResponseDTO userToResponse = userMapper.toUserResponseDTO(savedUser);
         return ResponseEntity.ok(userToResponse);
     }
 }

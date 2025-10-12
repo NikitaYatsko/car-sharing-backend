@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-
+    private final CarMapper carMapper;
 
     @GetMapping
     @Operation(
@@ -32,7 +34,7 @@ public class CarController {
         log.info("Запрос на получение всех машин");
         List<Car> cars = carService.getAllCars();
         List<CarResponseDTO> dtoCars = cars.stream()
-                .map(CarMapper.INSTANCE::carToCarResponseDTO)
+                .map(carMapper::carToCarResponseDTO)
                 .toList();
         log.debug("Найдено {} машин", cars.size());
         return ResponseEntity.ok(dtoCars);
@@ -48,7 +50,7 @@ public class CarController {
     public ResponseEntity<CarResponseDTO> createCar(@RequestBody Car car) {
         log.info("Запрос на создание новой машины: {}", car);
         Car createdCar = carService.createCar(car);
-        CarResponseDTO carResponseDTO = CarMapper.INSTANCE.carToCarResponseDTO(createdCar);
+        CarResponseDTO carResponseDTO = carMapper.carToCarResponseDTO(createdCar);
         log.info("Машина создана с ID={}", createdCar.getId());
         return ResponseEntity.ok(carResponseDTO);
     }
@@ -61,7 +63,7 @@ public class CarController {
     public ResponseEntity<CarResponseDTO> getCarById(@PathVariable Long id) {
         log.info("Запрос на получение машины с ID={}", id);
         Car car = carService.getCarById(id);
-        CarResponseDTO carResponseDTO = CarMapper.INSTANCE.carToCarResponseDTO(car);
+        CarResponseDTO carResponseDTO = carMapper.carToCarResponseDTO(car);
         log.debug("Найдена машина: {}", car);
         return ResponseEntity.ok(carResponseDTO);
     }
@@ -71,7 +73,7 @@ public class CarController {
     public ResponseEntity<CarResponseDTO> updateCar(@PathVariable Long id, @RequestBody Car car) {
         log.info("Запрос на обновление машины с ID={} данными: {}", id, car);
         Car updatedCar = carService.updateCar(id, car);
-        CarResponseDTO carResponseDTO = CarMapper.INSTANCE.carToCarResponseDTO(updatedCar);
+        CarResponseDTO carResponseDTO = carMapper.carToCarResponseDTO(updatedCar);
         log.info("Машина с ID={} успешно обновлена", id);
         return ResponseEntity.ok(carResponseDTO);
     }
