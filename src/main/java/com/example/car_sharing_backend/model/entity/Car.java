@@ -39,10 +39,10 @@ public class Car {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @NotBlank
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private CarStatus status;
+
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)

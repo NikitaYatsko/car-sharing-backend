@@ -12,25 +12,31 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "bookings", schema = "carsharing-schema")
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
-    @JoinColumn(name = "user_id")
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @JoinColumn(name = "car_id")
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
-    @Column(name = "start_date")
+
     @CreationTimestamp
+    @Column(name = "start_date", nullable = false, updatable = false)
     private LocalDateTime startDate;
+
     @Column(name = "end_date")
     private LocalDateTime endDate;
+
     @NotNull(message = "Booking must have a price!")
-    @Column(name = "general_price")
+    @Column(name = "general_price", nullable = false)
     private Double generalPrice;
-    @Column(name = "status")
+
     @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+    @Column(name = "status", nullable = false)
+    private BookingStatus status = BookingStatus.ACTIVE;
 }
