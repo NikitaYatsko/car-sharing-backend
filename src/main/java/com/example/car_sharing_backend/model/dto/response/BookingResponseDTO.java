@@ -1,4 +1,4 @@
-package com.example.car_sharing_backend.model.dto;
+package com.example.car_sharing_backend.model.dto.response;
 
 import com.example.car_sharing_backend.model.enums.BookingStatus;
 import lombok.Data;

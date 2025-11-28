@@ -1,14 +1,14 @@
 package com.example.car_sharing_backend.mappers;
 
 
-import com.example.car_sharing_backend.model.dto.BookingResponseDTO;
+import com.example.car_sharing_backend.model.dto.response.BookingResponseDTO;
 import com.example.car_sharing_backend.model.entity.Booking;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface BookingMapper {
+@Component
+public class BookingMapper {
 
-    default BookingResponseDTO toDto(Booking booking) {
+    public BookingResponseDTO toDto(Booking booking) {
         if (booking == null) {
             return null;
         }

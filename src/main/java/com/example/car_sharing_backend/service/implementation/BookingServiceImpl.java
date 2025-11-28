@@ -2,8 +2,7 @@ package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.exception.CarNotFoundException;
 import com.example.car_sharing_backend.exception.UserNotFoundException;
-import com.example.car_sharing_backend.model.dto.BookingRequestDTO;
-import com.example.car_sharing_backend.model.dto.BookingResponseDTO;
+import com.example.car_sharing_backend.model.dto.request.BookingRequestDTO;
 import com.example.car_sharing_backend.model.entity.Booking;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.model.entity.User;
@@ -16,7 +15,6 @@ import com.example.car_sharing_backend.service.BookingService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;

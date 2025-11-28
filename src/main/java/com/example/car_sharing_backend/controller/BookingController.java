@@ -1,11 +1,10 @@
 package com.example.car_sharing_backend.controller;
 
+
 import com.example.car_sharing_backend.mappers.BookingMapper;
+import com.example.car_sharing_backend.model.dto.request.BookingRequestDTO;
 
-
-import com.example.car_sharing_backend.model.dto.BookingRequestDTO;
-
-import com.example.car_sharing_backend.model.dto.BookingResponseDTO;
+import com.example.car_sharing_backend.model.dto.response.BookingResponseDTO;
 import com.example.car_sharing_backend.model.entity.Booking;
 import com.example.car_sharing_backend.service.BookingService;
 import lombok.AllArgsConstructor;
