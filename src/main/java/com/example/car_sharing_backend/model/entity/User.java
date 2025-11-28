@@ -21,11 +21,7 @@ public class User {
 
     @NotBlank(message = "Name can't be empty")
     @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @NotBlank(message = "lastname can't be empty")
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    private String fullName;
 
     @NotBlank(message = "email can't be empty")
     @Column(name = "email", nullable = false, unique = true)
@@ -34,9 +30,6 @@ public class User {
     @NotBlank(message = "Password is necessary")
     @Column(name = "password", nullable = false)
     private String password;
-
-    @Column(name = "roles")
-    private String roles = "user";
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();

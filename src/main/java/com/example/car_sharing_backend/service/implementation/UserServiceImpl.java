@@ -20,11 +20,5 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    @Override
-    public User createUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UserAlreadyExistsException("User with email " + user.getEmail() + " already exists");
-        }
-        return userRepository.save(user);
-    }
+
 }
