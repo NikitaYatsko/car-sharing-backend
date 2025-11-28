@@ -2,7 +2,6 @@ package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.exception.UserAlreadyExistsException;
 import com.example.car_sharing_backend.exception.UserNotFoundException;
-import com.example.car_sharing_backend.model.dto.UserResponseDTO;
 import com.example.car_sharing_backend.model.entity.User;
 import com.example.car_sharing_backend.repository.UserRepository;
 import com.example.car_sharing_backend.service.UserService;

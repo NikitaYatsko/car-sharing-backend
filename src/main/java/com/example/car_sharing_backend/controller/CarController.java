@@ -1,8 +1,6 @@
 package com.example.car_sharing_backend.controller;
 
-import com.example.car_sharing_backend.mappers.CarMapper;
-import com.example.car_sharing_backend.model.dto.CarResponseDTO;
-import com.example.car_sharing_backend.model.dto.UserResponseDTO;
+import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RestController
