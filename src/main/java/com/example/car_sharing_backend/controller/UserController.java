@@ -20,6 +20,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) {
+        return null;
     }
 
 }

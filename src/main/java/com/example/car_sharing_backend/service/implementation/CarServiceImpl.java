@@ -2,6 +2,7 @@ package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.exception.CarNotFoundException;
 import com.example.car_sharing_backend.model.entity.Car;
+import com.example.car_sharing_backend.model.enums.ErrorMessage;
 import com.example.car_sharing_backend.repository.CarRepository;
 import com.example.car_sharing_backend.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class CarServiceImpl implements CarService {
     public Car getCarById(Long id) {
         log.info("Получение машины с id={}", id);
         return carRepository.findById(id)
-                .orElseThrow(() -> new CarNotFoundException("Car not found with id: " + id));
+                .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
     }
 
     @Override
@@ -42,14 +43,6 @@ public class CarServiceImpl implements CarService {
 
         Car existing = carRepository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException("Car not found with id: " + id));
-
-        existing.setModel(car.getModel());
-        existing.setStateNumber(car.getStateNumber());
-        existing.setType(car.getType());
-        existing.setPrice(car.getPrice());
-        existing.setStatus(car.getStatus());
-        existing.setLatitude(car.getLatitude());
-        existing.setLongitude(car.getLongitude());
 
         return carRepository.save(existing);
     }
