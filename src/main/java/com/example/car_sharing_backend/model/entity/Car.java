@@ -19,55 +19,65 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
     private UUID id;
 
     @NotBlank
-    @Column(name = "model", nullable = false)
     private String model;
 
     @NotBlank
     @Size(max = 20)
-    @Column(name = "state_number", nullable = false, unique = true)
+    @Column(unique = true)
     private String stateNumber;
 
     @NotBlank
-    @Column(name = "type", nullable = false)
     private String type;
 
     @NotNull
     @Positive
-    @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private CarStatus status;
+
+    @DecimalMin("-90.0")
+    @DecimalMax("90.0")
+    private Double latitude;
+
+    @DecimalMin("-180.0")
+    @DecimalMax("180.0")
+    private Double longitude;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
         if (status == null) {
             status = CarStatus.AVAILABLE;
         }
+        roundCoordinates();
     }
 
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    @PreUpdate
+    public void preUpdate() {
+        roundCoordinates();
+    }
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private void roundCoordinates() {
+        if (latitude != null) {
+            latitude = round(latitude, 5);
+        }
+        if (longitude != null) {
+            longitude = round(longitude, 5);
+        }
+    }
 
-
-    @DecimalMin("-90.0")
-    @DecimalMax("90.0")
-    @Column(name = "latitude", nullable = false)
-    private Double latitude;
-
-
-    @DecimalMin("-180.0")
-    @DecimalMax("180.0")
-    @Column(name = "longitude", nullable = false)
-    private Double longitude;
+    private double round(double value, int places) {
+        long factor = (long) Math.pow(10, places);
+        return (double) Math.round(value * factor) / factor;
+    }
 }
+

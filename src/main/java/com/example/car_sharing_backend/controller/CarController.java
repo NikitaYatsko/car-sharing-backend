@@ -2,6 +2,7 @@ package com.example.car_sharing_backend.controller;
 
 import com.example.car_sharing_backend.mappers.CarMapper;
 import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
+import com.example.car_sharing_backend.model.dto.request.UpdateCarDto;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.service.CarService;
@@ -58,7 +59,7 @@ public class CarController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Обновить машину", description = "Обновляет данные по машине")
-    public ResponseEntity<CarResponseDTO> updateCar(@PathVariable UUID id, @RequestBody Car car) {
+    public ResponseEntity<CarResponseDTO> updateCar(@PathVariable UUID id, @RequestBody UpdateCarDto car) {
         log.info("Запрос на обновление машины с ID={} данными: {}", id, car);
         return ResponseEntity.ok(carService.updateCar(id, car));
     }

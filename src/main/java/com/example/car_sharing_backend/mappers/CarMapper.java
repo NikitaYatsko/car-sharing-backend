@@ -1,6 +1,7 @@
 package com.example.car_sharing_backend.mappers;
 
 import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
+import com.example.car_sharing_backend.model.dto.request.UpdateCarDto;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.model.enums.CarStatus;
@@ -14,6 +15,7 @@ public class CarMapper {
             return null;
         }
         CarResponseDTO carResponseDTO = new CarResponseDTO();
+        carResponseDTO.setId(car.getId());
         carResponseDTO.setModel(car.getModel());
         carResponseDTO.setStateNumber(car.getStateNumber());
         carResponseDTO.setType(car.getType());
@@ -24,21 +26,6 @@ public class CarMapper {
         return carResponseDTO;
     }
 
-    public Car UpdateCar(Car car) {
-        if (car == null) {
-            return null;
-        }
-        Car existing = new Car();
-        existing.setModel(car.getModel());
-        existing.setStateNumber(car.getStateNumber());
-        existing.setType(car.getType());
-        existing.setPrice(car.getPrice());
-        existing.setStatus(car.getStatus());
-        existing.setLatitude(car.getLatitude());
-        existing.setLongitude(car.getLongitude());
-        return existing;
-    }
-
     public Car toEntity(NewCarRequest request) {
         Car car = new Car();
         car.setModel(request.getModel());
@@ -47,4 +34,22 @@ public class CarMapper {
         car.setPrice(request.getPrice());
         return car;
     }
+    public void updateEntity(Car car, UpdateCarDto dto) {
+        if (car == null || dto == null) return;
+
+        if (dto.getStatus() != null) {
+            car.setStatus(CarStatus.valueOf(dto.getStatus()));
+        }
+        if (dto.getLatitude() != null) {
+            car.setLatitude(dto.getLatitude());
+        }
+        if (dto.getLongitude() != null) {
+            car.setLongitude(dto.getLongitude());
+        }
+        if (dto.getStateNumber() != null) {
+            car.setStateNumber(dto.getStateNumber());
+        }
+    }
+
+
 }

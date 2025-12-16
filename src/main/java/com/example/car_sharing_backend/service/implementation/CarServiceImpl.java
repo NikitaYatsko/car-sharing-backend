@@ -4,6 +4,7 @@ import com.example.car_sharing_backend.exception.CarAlreadyExistsException;
 import com.example.car_sharing_backend.exception.CarNotFoundException;
 import com.example.car_sharing_backend.mappers.CarMapper;
 import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
+import com.example.car_sharing_backend.model.dto.request.UpdateCarDto;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.model.enums.CarStatus;
@@ -58,14 +59,17 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarResponseDTO updateCar(UUID id, Car car) {
+    public CarResponseDTO updateCar(UUID id, UpdateCarDto dto) {
         log.info("Обновление машины с id={}", id);
         Car existing = carRepository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
-        Car updatedCar = carMapper.UpdateCar(existing);
-        carRepository.save(updatedCar);
-        return carMapper.toCarDto(updatedCar);
+
+        carMapper.updateEntity(existing, dto);
+        carRepository.save(existing);
+
+        return carMapper.toCarDto(existing);
     }
+
 
     @Override
     public void deleteCar(UUID id) {
