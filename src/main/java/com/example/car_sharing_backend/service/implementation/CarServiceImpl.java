@@ -1,7 +1,11 @@
 package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.exception.CarNotFoundException;
+import com.example.car_sharing_backend.mappers.CarMapper;
+import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
+import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
+import com.example.car_sharing_backend.model.enums.CarStatus;
 import com.example.car_sharing_backend.model.enums.ErrorMessage;
 import com.example.car_sharing_backend.repository.CarRepository;
 import com.example.car_sharing_backend.service.CarService;
@@ -17,40 +21,57 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
+    private final CarMapper carMapper;
 
     @Override
-    public List<Car> getAllCars() {
+    public List<CarResponseDTO> getAllCars() {
         log.info("Получение списка всех машин");
-        return carRepository.findAll();
+        return carRepository.findAll()
+                .stream()
+                .map(carMapper::toCarDto)
+                .toList();
     }
 
     @Override
-    public Car getCarById(Long id) {
+    public CarResponseDTO getCarById(Long id) {
         log.info("Получение машины с id={}", id);
-        return carRepository.findById(id)
+        Car car = carRepository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
+        return carMapper.toCarDto(car);
     }
 
     @Override
-    public Car createCar(Car car) {
-        log.info("Создание новой машины: {}", car);
-        return carRepository.save(car);
+    public CarResponseDTO createCar(NewCarRequest request) {
+        Car car = carMapper.toEntity(request);
+        if (car.getStatus() == null) {
+            car.setStatus(CarStatus.AVAILABLE);
+        }
+        carRepository.save(car);
+
+        return carMapper.toCarDto(car);
     }
 
     @Override
-    public Car updateCar(Long id, Car car) {
+    public CarResponseDTO updateCar(Long id, Car car) {
         log.info("Обновление машины с id={}", id);
-
         Car existing = carRepository.findById(id)
-                .orElseThrow(() -> new CarNotFoundException("Car not found with id: " + id));
-
-        return carRepository.save(existing);
+                .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
+        Car updatedCar = carMapper.UpdateCar(existing);
+        carRepository.save(updatedCar);
+        return carMapper.toCarDto(updatedCar);
     }
 
     @Override
     public void deleteCar(Long id) {
         log.info("Удаление машины с id={}", id);
-        Car car = getCarById(id);
-        carRepository.deleteById(car.getId());
+
+        if (!carRepository.existsById(id)) {
+            throw new CarNotFoundException(
+                    ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()
+            );
+        }
+
+        carRepository.deleteById(id);
     }
+
 }

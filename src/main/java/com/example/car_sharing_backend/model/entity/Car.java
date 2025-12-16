@@ -43,6 +43,12 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarStatus status;
 
+    @PrePersist
+    public void prePersist() {
+        if (status == null) {
+            status = CarStatus.AVAILABLE;
+        }
+    }
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
@@ -52,13 +58,13 @@ public class Car {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @NotNull
+
     @DecimalMin("-90.0")
     @DecimalMax("90.0")
     @Column(name = "latitude", nullable = false)
     private Double latitude;
 
-    @NotNull
+
     @DecimalMin("-180.0")
     @DecimalMax("180.0")
     @Column(name = "longitude", nullable = false)

@@ -1,6 +1,7 @@
 package com.example.car_sharing_backend.controller;
 
 import com.example.car_sharing_backend.mappers.CarMapper;
+import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.service.CarService;
@@ -20,7 +21,7 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-    private final CarMapper carMapper;
+
 
     @GetMapping
     @Operation(
@@ -29,14 +30,8 @@ public class CarController {
     )
     public ResponseEntity<List<CarResponseDTO>> getAllCars() {
         log.info("Запрос на получение всех машин");
-        List<Car> cars = carService.getAllCars();
-        List<CarResponseDTO> dtoCars = cars.stream()
-                .map(carMapper::toCarDto)
-                .toList();
-        log.debug("Найдено {} машин", cars.size());
-        return ResponseEntity.ok(dtoCars);
+        return ResponseEntity.ok(carService.getAllCars());
     }
-
 
     @PostMapping
     @Operation(
@@ -44,12 +39,10 @@ public class CarController {
             description = "Добавляет новую машину в систему"
     )
     @ApiResponse(responseCode = "200", description = "Машина успешно создана")
-    public ResponseEntity<CarResponseDTO> createCar(@RequestBody Car car) {
-        log.info("Запрос на создание новой машины: {}", car);
-        Car createdCar = carService.createCar(car);
-        CarResponseDTO carResponseDTO = carMapper.toCarDto(createdCar);
-        log.info("Машина создана с ID={}", createdCar.getId());
-        return ResponseEntity.ok(carResponseDTO);
+    public ResponseEntity<CarResponseDTO> createCar(@RequestBody NewCarRequest request) {
+        log.info("Запрос на создание новой машины: {}", request);
+
+        return ResponseEntity.ok(carService.createCar(request));
     }
 
     @GetMapping("/{id}")
@@ -59,20 +52,14 @@ public class CarController {
     )
     public ResponseEntity<CarResponseDTO> getCarById(@PathVariable Long id) {
         log.info("Запрос на получение машины с ID={}", id);
-        Car car = carService.getCarById(id);
-        CarResponseDTO carResponseDTO = carMapper.toCarDto(car);
-        log.debug("Найдена машина: {}", car);
-        return ResponseEntity.ok(carResponseDTO);
+        return ResponseEntity.ok(carService.getCarById(id));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Обновить машину", description = "Обновляет данные по машине")
     public ResponseEntity<CarResponseDTO> updateCar(@PathVariable Long id, @RequestBody Car car) {
         log.info("Запрос на обновление машины с ID={} данными: {}", id, car);
-        Car updatedCar = carService.updateCar(id, car);
-        CarResponseDTO carResponseDTO = carMapper.toCarDto(updatedCar);
-        log.info("Машина с ID={} успешно обновлена", id);
-        return ResponseEntity.ok(carResponseDTO);
+        return ResponseEntity.ok(carService.updateCar(id, car));
     }
 
     @DeleteMapping("/{id}")

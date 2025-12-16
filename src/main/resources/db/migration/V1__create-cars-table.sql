@@ -10,8 +10,8 @@ create table if not exists "carsharing-schema".cars
     status       car_status       not null,
     created_at   timestamp default current_timestamp,
     updated_at   timestamp default current_timestamp,
-    latitude     double precision not null,
-    longitude    double precision not null
+    latitude     double precision ,
+    longitude    double precision
 
 );
 INSERT INTO "carsharing-schema".cars
