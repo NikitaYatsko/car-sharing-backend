@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -33,7 +34,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarResponseDTO getCarById(Long id) {
+    public CarResponseDTO getCarById(UUID id) {
         log.info("Получение машины с id={}", id);
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
@@ -52,7 +53,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarResponseDTO updateCar(Long id, Car car) {
+    public CarResponseDTO updateCar(UUID id, Car car) {
         log.info("Обновление машины с id={}", id);
         Car existing = carRepository.findById(id)
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
@@ -62,7 +63,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCar(Long id) {
+    public void deleteCar(UUID id) {
         log.info("Удаление машины с id={}", id);
 
         if (!carRepository.existsById(id)) {

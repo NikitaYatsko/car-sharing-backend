@@ -1,5 +1,6 @@
 package com.example.car_sharing_backend.service.implementation;
 
+import com.example.car_sharing_backend.exception.CarAlreadyRentedException;
 import com.example.car_sharing_backend.exception.CarNotFoundException;
 import com.example.car_sharing_backend.exception.UserNotFoundException;
 import com.example.car_sharing_backend.model.dto.request.BookingRequestDTO;
@@ -8,6 +9,7 @@ import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.model.entity.User;
 import com.example.car_sharing_backend.model.enums.BookingStatus;
 import com.example.car_sharing_backend.model.enums.CarStatus;
+import com.example.car_sharing_backend.model.enums.ErrorMessage;
 import com.example.car_sharing_backend.repository.BookingRepository;
 import com.example.car_sharing_backend.repository.CarRepository;
 import com.example.car_sharing_backend.repository.UserRepository;
@@ -33,11 +35,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking createBooking(BookingRequestDTO dto) {
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(ErrorMessage.USER_NOT_FOUND_BY_ID.getMessage()));
         Car car = carRepository.findById(dto.getCarId())
-                .orElseThrow(() -> new CarNotFoundException("Car not found"));
+                .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
         if (car.getStatus() == CarStatus.RENTED) {
-            throw new RuntimeException("Car is already booked");
+            throw new CarAlreadyRentedException(ErrorMessage.CAR_ALREADY_RENTED.getMessage());
         }
         if (dto.getStartDate().isAfter(dto.getEndDate())) {
             throw new RuntimeException("Start date must be before end date");

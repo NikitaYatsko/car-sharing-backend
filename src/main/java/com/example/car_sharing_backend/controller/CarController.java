@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -50,21 +51,21 @@ public class CarController {
             summary = "Получить машину по ID",
             description = "Возвращает информацию об одной машине по её ID"
     )
-    public ResponseEntity<CarResponseDTO> getCarById(@PathVariable Long id) {
+    public ResponseEntity<CarResponseDTO> getCarById(@PathVariable UUID id) {
         log.info("Запрос на получение машины с ID={}", id);
         return ResponseEntity.ok(carService.getCarById(id));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Обновить машину", description = "Обновляет данные по машине")
-    public ResponseEntity<CarResponseDTO> updateCar(@PathVariable Long id, @RequestBody Car car) {
+    public ResponseEntity<CarResponseDTO> updateCar(@PathVariable UUID id, @RequestBody Car car) {
         log.info("Запрос на обновление машины с ID={} данными: {}", id, car);
         return ResponseEntity.ok(carService.updateCar(id, car));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удалить машину", description = "Удаляет машину по ID")
-    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCar(@PathVariable UUID id) {
         log.warn("Запрос на удаление машины с ID={}", id);
         carService.deleteCar(id);
         log.info("Машина с ID={} успешно удалена", id);
