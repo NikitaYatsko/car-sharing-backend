@@ -4,7 +4,7 @@ create table if not exists "carsharing-schema".cars
 (
     id           uuid        not null primary key,
     model        varchar(255)     not null,
-    state_number varchar(255)     not null,
+    state_number varchar(255)     not null unique ,
     type         varchar(255)     not null,
     price        double precision not null,
     status       car_status       not null,

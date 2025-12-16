@@ -1,5 +1,6 @@
 package com.example.car_sharing_backend.service.implementation;
 
+import com.example.car_sharing_backend.exception.CarAlreadyExistsException;
 import com.example.car_sharing_backend.exception.CarNotFoundException;
 import com.example.car_sharing_backend.mappers.CarMapper;
 import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
@@ -44,6 +45,10 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarResponseDTO createCar(NewCarRequest request) {
         Car car = carMapper.toEntity(request);
+        if (carRepository.existsByStateNumber(car.getStateNumber())) {
+            throw new CarAlreadyExistsException(ErrorMessage.CAR_ALREADY_EXISTS.getMessage());
+        }
+
         if (car.getStatus() == null) {
             car.setStatus(CarStatus.AVAILABLE);
         }
