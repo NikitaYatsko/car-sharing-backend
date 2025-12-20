@@ -19,7 +19,7 @@ public class User {
 
     @NotBlank(message = "Name can't be empty")
     @Column(name = "nickname", nullable = false)
-    private String nickname;
+    private String username;
 
     @NotBlank(message = "email can't be empty")
     @Column(name = "email", nullable = false, unique = true)

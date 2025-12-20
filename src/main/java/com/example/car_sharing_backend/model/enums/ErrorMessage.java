@@ -12,6 +12,7 @@ public enum ErrorMessage {
     USER_NOT_FOUND_BY_ID("User with id: %s not found"),
     USERNAME_ALREADY_REGISTERED("Username already registered"),
     CAR_ALREADY_EXISTS("Car already exists"),
+    USER_DOES_NOT_EXIST("User doesn't exist"),
     ;
 
 
