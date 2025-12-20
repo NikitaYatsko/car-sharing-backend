@@ -1,10 +1,8 @@
 package com.example.car_sharing_backend.controller;
 
-import com.example.car_sharing_backend.mappers.CarMapper;
 import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
 import com.example.car_sharing_backend.model.dto.request.UpdateCarDto;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
-import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,8 +21,6 @@ import java.util.UUID;
 public class CarController {
 
     private final CarService carService;
-
-
     @GetMapping
     @Operation(
             summary = "Получить все машины",
