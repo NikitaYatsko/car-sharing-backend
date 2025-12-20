@@ -2,7 +2,6 @@ package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.model.entity.User;
 import com.example.car_sharing_backend.model.enums.ErrorMessage;
-import com.example.car_sharing_backend.model.enums.RolesEnum;
 import com.example.car_sharing_backend.repository.RoleRepository;
 import com.example.car_sharing_backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -40,4 +39,5 @@ public class UserService implements UserDetailsService {
         );
 
     }
+
 }
