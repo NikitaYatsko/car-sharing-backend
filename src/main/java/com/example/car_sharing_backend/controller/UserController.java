@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -14,6 +16,11 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) {
         return null;
+    }
+
+    @GetMapping("/info")
+    public String getUserInfo(Principal principal) {
+        return principal.getName();
     }
 
 }

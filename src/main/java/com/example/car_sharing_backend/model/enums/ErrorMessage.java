@@ -13,6 +13,8 @@ public enum ErrorMessage {
     USERNAME_ALREADY_REGISTERED("Username already registered"),
     CAR_ALREADY_EXISTS("Car already exists"),
     USER_DOES_NOT_EXIST("User doesn't exist"),
+    TOKEN_EXPIRED("Token expired"),
+    SIGNATURE_IS_NOT_VALID("Signature is not valid"),
     ;
 
 
