@@ -5,7 +5,4 @@ public enum RolesEnum {
     USER,
     ;
 
-    public String asAuthority() {
-        return "ROLE_" + name();
-    }
 }

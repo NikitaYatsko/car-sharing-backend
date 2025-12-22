@@ -14,7 +14,9 @@ public enum ErrorMessage {
     CAR_ALREADY_EXISTS("Car already exists"),
     USER_DOES_NOT_EXIST("User doesn't exist"),
     TOKEN_EXPIRED("Token expired"),
-    SIGNATURE_IS_NOT_VALID("Signature is not valid"),
+    ROLE_NOT_FOUND("Role: %s not found"),
+    BAD_CREDENTIALS("Bad credentials, Invalid username or password"),
+
     ;
 
 

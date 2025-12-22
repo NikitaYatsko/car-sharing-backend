@@ -40,6 +40,7 @@ public class SecurityConfig {
                                 .requestMatchers("/bookings").authenticated()
                                 .requestMatchers("/cars").authenticated()
                                 .requestMatchers("/users/**").hasRole("ADMIN")
+                                .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().permitAll()
                 )
                 .exceptionHandling(exception ->
