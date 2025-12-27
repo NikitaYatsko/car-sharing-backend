@@ -2,8 +2,9 @@ package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.exception.CarAlreadyRentedException;
 import com.example.car_sharing_backend.exception.CarNotFoundException;
-import com.example.car_sharing_backend.exception.UserNotFoundException;
+import com.example.car_sharing_backend.mappers.BookingMapper;
 import com.example.car_sharing_backend.model.dto.request.BookingRequestDTO;
+import com.example.car_sharing_backend.model.dto.response.BookingResponseDTO;
 import com.example.car_sharing_backend.model.entity.Booking;
 import com.example.car_sharing_backend.model.entity.Car;
 import com.example.car_sharing_backend.model.entity.User;
@@ -12,7 +13,6 @@ import com.example.car_sharing_backend.model.enums.CarStatus;
 import com.example.car_sharing_backend.model.enums.ErrorMessage;
 import com.example.car_sharing_backend.repository.BookingRepository;
 import com.example.car_sharing_backend.repository.CarRepository;
-import com.example.car_sharing_backend.repository.UserRepository;
 import com.example.car_sharing_backend.service.BookingService;
 
 import jakarta.transaction.Transactional;
@@ -27,15 +27,15 @@ import java.util.List;
 @Service
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
-    private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
     private final CarRepository carRepository;
+    private final BookingMapper bookingMapper;
 
 
     @Transactional
     @Override
     public Booking createBooking(BookingRequestDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(ErrorMessage.USER_NOT_FOUND_BY_ID.getMessage()));
+        User currentUser = currentUserService.getCurrentUser();
         Car car = carRepository.findById(dto.getCarId())
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
         if (car.getStatus() == CarStatus.RENTED) {
@@ -49,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
         Double totalPrice = car.getPrice() * hours;
 
         Booking bookingToSave = new Booking();
-        bookingToSave.setUser(user);
+        bookingToSave.setUser(currentUser);
         bookingToSave.setCar(car);
         bookingToSave.setStartDate(dto.getStartDate());
         bookingToSave.setEndDate(dto.getEndDate());
@@ -62,8 +62,18 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getBookings() {
-        return bookingRepository.findAll();
+    public List<BookingResponseDTO> getBookings() {
+        List<Booking> bookings = bookingRepository.findAll();
+        return bookings.stream().map(bookingMapper::toDto).toList();
+    }
+
+    @Override
+    public List<BookingResponseDTO> getBookingsOfCurrentUser() {
+        User currentUser = currentUserService.getCurrentUser();
+        List<Booking> bookings = bookingRepository.findByUser(currentUser);
+        return bookings.stream()
+                .map(bookingMapper::toDto)
+                .toList();
     }
 
 

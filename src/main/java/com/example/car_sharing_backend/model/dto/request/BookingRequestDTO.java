@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Data
 public class BookingRequestDTO {
-    private UUID userId;
     private UUID carId;
     private LocalDateTime startDate;
     private LocalDateTime endDate;

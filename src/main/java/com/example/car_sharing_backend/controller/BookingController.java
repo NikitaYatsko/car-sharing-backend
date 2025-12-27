@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class BookingController {
     private final BookingService bookingService;
     private final BookingMapper bookingMapper;
 
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<BookingResponseDTO> saveBooking(@RequestBody BookingRequestDTO request) {
         Booking booking = bookingService.createBooking(request);
@@ -35,11 +36,15 @@ public class BookingController {
 
     @GetMapping
     public ResponseEntity<List<BookingResponseDTO>> getBookings() {
-        List<Booking> bookings = bookingService.getBookings();
-        List<BookingResponseDTO> bookingsDto = bookings.stream()
-                .map(bookingMapper::toDto).toList();
-        log.debug("Found {} bookings", bookingsDto.size());
-        return ResponseEntity.ok(bookingsDto);
+        List<BookingResponseDTO> responseDTO = bookingService.getBookings();
+        log.debug("Found {} bookings", responseDTO.size());
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<BookingResponseDTO>> getMyBookings() {
+        List<BookingResponseDTO> response = bookingService.getBookingsOfCurrentUser();
+        return ResponseEntity.ok(response);
     }
 
 
