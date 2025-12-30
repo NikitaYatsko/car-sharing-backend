@@ -28,7 +28,7 @@ import java.util.Set;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final UserService userService;
+    private final UserServiceDetails userService;
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;

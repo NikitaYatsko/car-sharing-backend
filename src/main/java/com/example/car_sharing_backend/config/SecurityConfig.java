@@ -1,8 +1,7 @@
 package com.example.car_sharing_backend.config;
 
 import com.example.car_sharing_backend.security.JwtFilter;
-import com.example.car_sharing_backend.service.implementation.UserService;
-import lombok.AllArgsConstructor;
+import com.example.car_sharing_backend.service.implementation.UserServiceDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserService userService;
+    private final UserServiceDetails userServiceDetails;
     private final JwtFilter jwtFilter;
 
     @Bean
@@ -55,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setUserDetailsService(userServiceDetails);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }

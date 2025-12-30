@@ -33,9 +33,14 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
