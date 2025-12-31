@@ -56,7 +56,7 @@ public class ProfileController {
         }
     }
 
-    // приватный метод для получения текущего пользователя
+
     private User getCurrentUser(Authentication authentication) {
         return userServiceDetails.findByUsername(authentication.getName())
                 .orElseThrow(() -> new UserNotFoundException(

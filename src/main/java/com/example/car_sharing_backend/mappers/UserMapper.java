@@ -34,6 +34,8 @@ public class UserMapper {
         userProfileResponse.setEmail(user.getEmail());
         userProfileResponse.setRegistrationDate(user.getCreatedAt());
         userProfileResponse.setPhotoUrl(user.getAvatarUrl());
+        userProfileResponse.setFirstName(user.getFirstName());
+        userProfileResponse.setLastName(user.getLastName());
         return userProfileResponse;
     }
 

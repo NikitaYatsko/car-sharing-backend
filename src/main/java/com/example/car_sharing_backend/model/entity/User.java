@@ -22,6 +22,14 @@ public class User {
     @Column(name = "nickname", nullable = false)
     private String username;
 
+    @NotBlank(message = "Firstname can't be empty")
+    @Column(name = "firstname", nullable = false)
+    private String firstName;
+
+    @NotBlank(message = "Lastname can't be empty")
+    @Column(name = "lastname", nullable = false)
+    private String lastName;
+
     @NotBlank(message = "email can't be empty")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -33,13 +41,15 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user")
+    private DrivingLicense drivingLicense;
+
     @Column(name = "avatar_url")
     private String avatarUrl;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
 
 
     @ManyToMany(fetch = FetchType.LAZY)
