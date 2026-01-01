@@ -36,6 +36,7 @@ public class UserMapper {
         userProfileResponse.setPhotoUrl(user.getAvatarUrl());
         userProfileResponse.setFirstName(user.getFirstName());
         userProfileResponse.setLastName(user.getLastName());
+        userProfileResponse.setDrivingLicense(DrivingLicenseMapper.toDto(user.getDrivingLicense()));
         return userProfileResponse;
     }
 

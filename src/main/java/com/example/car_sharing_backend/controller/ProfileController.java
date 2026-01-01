@@ -56,7 +56,6 @@ public class ProfileController {
         }
     }
 
-
     private User getCurrentUser(Authentication authentication) {
         return userServiceDetails.findByUsername(authentication.getName())
                 .orElseThrow(() -> new UserNotFoundException(
