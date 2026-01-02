@@ -6,11 +6,12 @@ import java.time.LocalDate;
 import java.util.Set;
 
 
+
 @Data
-public class DrivingLicenseResponse {
+public class DrivingLicenseDto {
     private String licenseNumber;
     private LocalDate issuedDate;
     private LocalDate expiryDate;
     private String issuedBy;
-    private Set<LicenseCategoryResponse> categories;
+    private Set<LicenseCategoryDto> categories;
 }

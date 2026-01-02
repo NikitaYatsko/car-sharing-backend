@@ -7,12 +7,14 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "driving_license_request", schema = "carsharing-schema")
-public class DrivingLicenseRequest {
+public class DrivingLicenseRequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -46,6 +48,16 @@ public class DrivingLicenseRequest {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "driving_license_request_categories",
+            schema = "carsharing-schema",
+            joinColumns = @JoinColumn(name = "request_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<LicenseCategory> categories = new HashSet<>();
+
 
 
 }

@@ -4,10 +4,13 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.car_sharing_backend.exception.UserNotFoundException;
 import com.example.car_sharing_backend.mappers.UserMapper;
+import com.example.car_sharing_backend.model.dto.request.DriverLicenseRequestDto;
+import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponseForAdmin;
 import com.example.car_sharing_backend.model.dto.response.UserProfileResponse;
 import com.example.car_sharing_backend.model.entity.User;
 import com.example.car_sharing_backend.model.enums.ErrorMessage;
 import com.example.car_sharing_backend.repository.UserRepository;
+import com.example.car_sharing_backend.service.DrivingLicenseRequestService;
 import com.example.car_sharing_backend.service.implementation.UserServiceDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,7 @@ public class ProfileController {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final Cloudinary cloudinary;
+    private final DrivingLicenseRequestService drivingLicenseRequestService;
 
     @GetMapping("/me")
     public ResponseEntity<UserProfileResponse> getCurrentUserProfile(Authentication authentication) {
@@ -55,6 +59,14 @@ public class ProfileController {
             return ResponseEntity.status(500).body(Map.of("error", "Failed to upload photo"));
         }
     }
+
+    @PostMapping("/driving_license")
+    public DrivingLicenseResponseForAdmin createDrivingLicense(@RequestPart("data") DriverLicenseRequestDto dto,
+                                                                               @RequestPart("selfie") MultipartFile selfie,
+                                                                               @RequestPart("licensePhoto") MultipartFile licensePhoto) throws IOException {
+        return drivingLicenseRequestService.createDrivingLicenseRequest(dto,licensePhoto,selfie);
+    }
+
 
     private User getCurrentUser(Authentication authentication) {
         return userServiceDetails.findByUsername(authentication.getName())

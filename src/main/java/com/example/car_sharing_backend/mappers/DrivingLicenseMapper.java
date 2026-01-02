@@ -1,7 +1,7 @@
 package com.example.car_sharing_backend.mappers;
 
-import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponse;
-import com.example.car_sharing_backend.model.dto.response.LicenseCategoryResponse;
+import com.example.car_sharing_backend.model.dto.response.DrivingLicenseDto;
+import com.example.car_sharing_backend.model.dto.response.LicenseCategoryDto;
 import com.example.car_sharing_backend.model.entity.DrivingLicense;
 import com.example.car_sharing_backend.model.entity.LicenseCategory;
 
@@ -11,14 +11,15 @@ import java.util.stream.Collectors;
 public class DrivingLicenseMapper {
 
 
-    public static LicenseCategoryResponse toDto(LicenseCategory category) {
+    public static LicenseCategoryDto toDto(LicenseCategory category) {
         if (category == null) return null;
-        LicenseCategoryResponse dto = new LicenseCategoryResponse();
+        LicenseCategoryDto dto = new LicenseCategoryDto();
+        dto.setId(category.getId());
         dto.setCode(category.getCode());
         return dto;
     }
 
-    public static Set<LicenseCategoryResponse> toDto(Set<LicenseCategory> categories) {
+    public static Set<LicenseCategoryDto> toDto(Set<LicenseCategory> categories) {
         if (categories == null) return null;
         return categories.stream()
                 .map(DrivingLicenseMapper::toDto)
@@ -26,10 +27,10 @@ public class DrivingLicenseMapper {
     }
 
 
-    public static DrivingLicenseResponse toDto(DrivingLicense license) {
+    public static DrivingLicenseDto toDto(DrivingLicense license) {
         if (license == null) return null;
 
-        DrivingLicenseResponse dto = new DrivingLicenseResponse();
+        DrivingLicenseDto dto = new DrivingLicenseDto();
 
         dto.setLicenseNumber(license.getLicenseNumber());
         dto.setIssuedDate(license.getIssuedDate());
