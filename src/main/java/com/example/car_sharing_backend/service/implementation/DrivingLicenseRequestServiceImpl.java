@@ -5,6 +5,7 @@ import com.example.car_sharing_backend.exception.DrivingLicenseNotFoundException
 import com.example.car_sharing_backend.mappers.DrivingLicenseRequestMapper;
 import com.example.car_sharing_backend.model.dto.request.DriverLicenseRequestDto;
 import com.example.car_sharing_backend.model.dto.request.UpdateDrivingLicenseRequestDto;
+import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponse;
 import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponseForAdmin;
 import com.example.car_sharing_backend.model.entity.DrivingLicense;
 import com.example.car_sharing_backend.model.entity.DrivingLicenseRequestEntity;
@@ -70,11 +71,6 @@ public class DrivingLicenseRequestServiceImpl implements DrivingLicenseRequestSe
 
     }
 
-    public record DrivingLicenseResponse(
-            DrivingLicenseRequestStatus status,
-            String message
-    ) {
-    }
 
     @Transactional
     @Override

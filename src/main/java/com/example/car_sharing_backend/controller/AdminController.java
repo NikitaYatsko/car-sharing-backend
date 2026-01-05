@@ -1,6 +1,7 @@
 package com.example.car_sharing_backend.controller;
 
 import com.example.car_sharing_backend.model.dto.request.UpdateDrivingLicenseRequestDto;
+import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponse;
 import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponseForAdmin;
 import com.example.car_sharing_backend.service.implementation.DrivingLicenseRequestServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ public class AdminController {
     }
 
     @PutMapping("/driving-license-requests/{id}")
-    public ResponseEntity<DrivingLicenseRequestServiceImpl.DrivingLicenseResponse> approveOrDenyRequest(@PathVariable UUID id, @RequestBody UpdateDrivingLicenseRequestDto dto) {
-        drivingLicenseRequestServiceImpl.approveOrDenyRequest(id, dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<DrivingLicenseResponse> approveOrDenyRequest(@PathVariable UUID id, @RequestBody UpdateDrivingLicenseRequestDto dto) {
+        DrivingLicenseResponse response = drivingLicenseRequestServiceImpl.approveOrDenyRequest(id, dto);
+        return ResponseEntity.ok(response);
+
     }
 }
