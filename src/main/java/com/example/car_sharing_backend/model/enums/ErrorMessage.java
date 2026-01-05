@@ -17,6 +17,7 @@ public enum ErrorMessage {
     ROLE_NOT_FOUND("Role: %s not found"),
     BAD_CREDENTIALS("Bad credentials, Invalid username or password"),
     USER_NOT_FOUND_BY_USERNAME("User with username: %s not found"),
+    DRIVING_LICENSE_NOT_FOUND("Driving license with id: %s not found"),
 
     ;
 
