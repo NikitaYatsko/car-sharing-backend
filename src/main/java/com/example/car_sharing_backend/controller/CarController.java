@@ -1,6 +1,6 @@
 package com.example.car_sharing_backend.controller;
 
-import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
+import com.example.car_sharing_backend.model.dto.request.CarData;
 import com.example.car_sharing_backend.model.dto.request.UpdateCarDto;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.service.CarService;
@@ -8,9 +8,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +24,7 @@ import java.util.UUID;
 public class CarController {
 
     private final CarService carService;
+
     @GetMapping
     @Operation(
             summary = "Получить все машины",
@@ -31,17 +35,22 @@ public class CarController {
         return ResponseEntity.ok(carService.getAllCars());
     }
 
-    @PostMapping
+
     @Operation(
             summary = "Создать новую машину",
             description = "Добавляет новую машину в систему"
     )
     @ApiResponse(responseCode = "200", description = "Машина успешно создана")
-    public ResponseEntity<CarResponseDTO> createCar(@RequestBody NewCarRequest request) {
-        log.info("Запрос на создание новой машины: {}", request);
 
-        return ResponseEntity.ok(carService.createCar(request));
+    @PostMapping(value = "/cars", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> createCar(
+            @RequestPart("data") CarData carData,
+            @RequestPart("images") List<MultipartFile> images
+    ) throws IOException {
+        carService.createCar(images, carData);
+        return ResponseEntity.ok().build();
     }
+
 
     @GetMapping("/{id}")
     @Operation(

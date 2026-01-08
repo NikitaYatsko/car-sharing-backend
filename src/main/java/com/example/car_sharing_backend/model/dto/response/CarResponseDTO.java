@@ -2,6 +2,8 @@ package com.example.car_sharing_backend.model.dto.response;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -14,4 +16,5 @@ public class CarResponseDTO {
     private String status;
     private Double latitude;
     private Double longitude;
+    private List<String> images = new ArrayList<>();
 }

@@ -3,8 +3,7 @@ package com.example.car_sharing_backend.model.dto.request;
 import lombok.Data;
 
 @Data
-
-public class NewCarRequest {
+public class CarData{
     private String model;
     private String stateNumber;
     private String type;

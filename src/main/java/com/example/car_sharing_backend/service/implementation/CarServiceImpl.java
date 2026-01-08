@@ -3,10 +3,11 @@ package com.example.car_sharing_backend.service.implementation;
 import com.example.car_sharing_backend.exception.CarAlreadyExistsException;
 import com.example.car_sharing_backend.exception.CarNotFoundException;
 import com.example.car_sharing_backend.mappers.CarMapper;
-import com.example.car_sharing_backend.model.dto.request.NewCarRequest;
+import com.example.car_sharing_backend.model.dto.request.CarData;
 import com.example.car_sharing_backend.model.dto.request.UpdateCarDto;
 import com.example.car_sharing_backend.model.dto.response.CarResponseDTO;
 import com.example.car_sharing_backend.model.entity.Car;
+import com.example.car_sharing_backend.model.entity.CarImage;
 import com.example.car_sharing_backend.model.enums.CarStatus;
 import com.example.car_sharing_backend.model.enums.ErrorMessage;
 import com.example.car_sharing_backend.repository.CarRepository;
@@ -14,7 +15,9 @@ import com.example.car_sharing_backend.service.CarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +28,7 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarMapper carMapper;
+    private final PhotoService photoService;
 
     @Override
     public List<CarResponseDTO> getAllCars() {
@@ -44,10 +48,18 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarResponseDTO createCar(NewCarRequest request) {
-        Car car = carMapper.toEntity(request);
+    public CarResponseDTO createCar(List<MultipartFile> images, CarData data) throws IOException {
+        Car car = carMapper.toEntity(data);
         if (carRepository.existsByStateNumber(car.getStateNumber())) {
             throw new CarAlreadyExistsException(ErrorMessage.CAR_ALREADY_EXISTS.getMessage());
+        }
+
+        for (MultipartFile image : images) {
+            String url = photoService.uploadPhoto(image, "cars");
+            CarImage carImage = new CarImage();
+            carImage.setCar(car);
+            carImage.setImageUrl(url);
+            car.getImages().add(carImage);
         }
 
         if (car.getStatus() == null) {
