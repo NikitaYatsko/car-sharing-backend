@@ -2,14 +2,11 @@ package com.example.car_sharing_backend.mappers;
 
 import com.example.car_sharing_backend.model.dto.request.DriverLicenseRequestDto;
 import com.example.car_sharing_backend.model.dto.response.DrivingLicenseResponseForAdmin;
-import com.example.car_sharing_backend.model.dto.response.LicenseCategoryDto;
 import com.example.car_sharing_backend.model.entity.DrivingLicenseRequestEntity;
 import com.example.car_sharing_backend.model.entity.LicenseCategory;
-import com.example.car_sharing_backend.model.enums.DrivingLicenseRequestStatus;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
-import java.util.Set;
+
 import java.util.stream.Collectors;
 
 @Component
