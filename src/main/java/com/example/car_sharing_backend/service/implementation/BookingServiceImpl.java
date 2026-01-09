@@ -2,6 +2,7 @@ package com.example.car_sharing_backend.service.implementation;
 
 import com.example.car_sharing_backend.exception.CarAlreadyRentedException;
 import com.example.car_sharing_backend.exception.CarNotFoundException;
+import com.example.car_sharing_backend.exception.DrivingLicenseNotFoundException;
 import com.example.car_sharing_backend.mappers.BookingMapper;
 import com.example.car_sharing_backend.model.dto.request.BookingRequestDTO;
 import com.example.car_sharing_backend.model.dto.response.BookingResponseDTO;
@@ -36,6 +37,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking createBooking(BookingRequestDTO dto) {
         User currentUser = currentUserService.getCurrentUser();
+
+        if (currentUser.getDrivingLicense() == null) {
+            throw new DrivingLicenseNotFoundException(ErrorMessage.DRIVING_LICENSE_NOT_FOUND.getMessage());
+        }
+
         Car car = carRepository.findById(dto.getCarId())
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
         if (car.getStatus() == CarStatus.RENTED) {

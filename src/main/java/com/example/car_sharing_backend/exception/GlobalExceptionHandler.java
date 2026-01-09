@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+
     @ExceptionHandler(DrivingLicenseNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleLicenseNotFoundException(DrivingLicenseNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
