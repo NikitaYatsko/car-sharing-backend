@@ -44,6 +44,7 @@ public class BookingServiceImpl implements BookingService {
 
         Car car = carRepository.findById(dto.getCarId())
                 .orElseThrow(() -> new CarNotFoundException(ErrorMessage.CAR_NOT_FOUND_BY_ID.getMessage()));
+
         if (car.getStatus() == CarStatus.RENTED) {
             throw new CarAlreadyRentedException(ErrorMessage.CAR_ALREADY_RENTED.getMessage());
         }

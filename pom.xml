@@ -19,13 +19,12 @@
     <description>car sharing project backend</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>23</java.version>
         <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- JUnit BOM для согласованных версий -->
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
