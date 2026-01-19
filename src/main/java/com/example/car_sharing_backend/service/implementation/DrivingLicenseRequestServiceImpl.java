@@ -75,9 +75,11 @@ public class DrivingLicenseRequestServiceImpl implements DrivingLicenseRequestSe
     @Transactional
     @Override
     public DrivingLicenseResponse approveOrDenyRequest(UUID id, UpdateDrivingLicenseRequestDto dto) {
+
         DrivingLicenseRequestEntity entity = drivingLicenseRequestRepository.findById(id)
                 .orElseThrow(() -> new DrivingLicenseNotFoundException(
-                        ErrorMessage.DRIVING_LICENSE_NOT_FOUND.getMessage()));
+                        ErrorMessage.DRIVING_LICENSE_NOT_FOUND.getMessage()
+                ));
 
         if (entity.getRequestStatus() != DrivingLicenseRequestStatus.PENDING) {
             throw new IllegalStateException("Заявка уже обработана");
@@ -87,22 +89,31 @@ public class DrivingLicenseRequestServiceImpl implements DrivingLicenseRequestSe
         drivingLicenseRequestRepository.save(entity);
 
         if (dto.getStatus() == DrivingLicenseRequestStatus.APPROVED) {
-            DrivingLicense drivingLicense = new DrivingLicense();
+
+            DrivingLicense drivingLicense = drivingLicenseRepository
+                    .findByUser(entity.getUser())
+                    .orElseGet(DrivingLicense::new);
+
+            drivingLicense.setUser(entity.getUser());
             drivingLicense.setLicenseNumber(entity.getLicenseNumber());
             drivingLicense.setIssuedBy(entity.getIssuedBy());
+            drivingLicense.setIssuedDate(entity.getIssuedDate());
             drivingLicense.setExpiryDate(entity.getExpiryDate());
             drivingLicense.setCategories(new HashSet<>(entity.getCategories()));
-            drivingLicense.setIssuedDate(entity.getIssuedDate());
-            drivingLicense.setUser(entity.getUser());
+
             drivingLicenseRepository.save(drivingLicense);
 
-            return new DrivingLicenseResponse(entity.getRequestStatus(),
-                    "Заявка подтверждена, данные добавлены в профиль.");
+            return new DrivingLicenseResponse(
+                    entity.getRequestStatus(),
+                    "Заявка подтверждена, данные сохранены."
+            );
         }
 
         if (dto.getStatus() == DrivingLicenseRequestStatus.REJECTED) {
-            return new DrivingLicenseResponse(entity.getRequestStatus(),
-                    "Заявка отклонена.");
+            return new DrivingLicenseResponse(
+                    entity.getRequestStatus(),
+                    "Заявка отклонена."
+            );
         }
 
         throw new IllegalArgumentException("Неизвестный статус заявки: " + dto.getStatus());
